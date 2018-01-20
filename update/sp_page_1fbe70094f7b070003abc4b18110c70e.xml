@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_page">
+    <sp_page action="INSERT_OR_UPDATE">
+        <css/>
+        <draft>false</draft>
+        <id>gvs_vtb</id>
+        <internal>false</internal>
+        <public>false</public>
+        <roles/>
+        <short_description>Displays task related data based on provided url param table &amp; filter</short_description>
+        <sys_class_name>sp_page</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-01-19 19:17:20</sys_created_on>
+        <sys_id>1fbe70094f7b070003abc4b18110c70e</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name>gvs_vtb</sys_name>
+        <sys_package display_value="[GVS] Visual Task Board" source="x_52098_gvs_vtb">933abc014f3b070003abc4b18110c713</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="[GVS] Visual Task Board">933abc014f3b070003abc4b18110c713</sys_scope>
+        <sys_update_name>sp_page_1fbe70094f7b070003abc4b18110c70e</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-01-20 10:36:29</sys_updated_on>
+        <title>Visual Task Board</title>
+    </sp_page>
+    <sys_translated_text action="delete_multiple" query="documentkey=1fbe70094f7b070003abc4b18110c70e"/>
+</record_update>
