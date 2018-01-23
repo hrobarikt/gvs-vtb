@@ -37,6 +37,7 @@
 			recordGR.priority = input.ticket.priority;
 			recordGR.short_description = input.ticket.summary;
 			recordGR.description = input.ticket.details;
+			recordGR.insert();
 		}
 		return;
 	}
@@ -72,14 +73,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-01-20 14:35:58</sys_created_on>
         <sys_id>e7e7cd154fb3470003abc4b18110c705</sys_id>
-        <sys_mod_count>73</sys_mod_count>
+        <sys_mod_count>74</sys_mod_count>
         <sys_name>GVS_VTB Task Form</sys_name>
         <sys_package display_value="[GVS] Visual Task Board" source="x_52098_gvs_vtb">933abc014f3b070003abc4b18110c713</sys_package>
         <sys_policy/>
         <sys_scope display_value="[GVS] Visual Task Board">933abc014f3b070003abc4b18110c713</sys_scope>
         <sys_update_name>sp_widget_e7e7cd154fb3470003abc4b18110c705</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-01-23 15:17:56</sys_updated_on>
+        <sys_updated_on>2018-01-23 15:26:00</sys_updated_on>
         <template><![CDATA[<div class="panel panel-default">
 	<div class="wrapper b-b">
 		<div class="lead">{{::options.title}}</div>
