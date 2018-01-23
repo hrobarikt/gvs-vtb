@@ -1,44 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <record_update table="sp_widget">
     <sp_widget action="INSERT_OR_UPDATE">
+        <category/>
         <client_script><![CDATA[function() {
 	/* widget controller */
 	var c = this;
-
-	//returns an appropriate CSS class for priority label
-	c.getPriorityClass = function (task){
-		var priority = task.priority.value;
-		return {
-			'label': true,
-			'label-danger': priority == '1',
-			'label-warning': priority == '2',
-			'label-primary': priority == '3',
-			'label-success': priority == '4',
-			'label-default': priority == '5'
-		}
-
-	}
-
+	
+	console.log(c.data.tasks);
 }]]></client_script>
         <controller_as>c</controller_as>
-        <css>.gvs-task-card {
-	height: 10em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}</css>
+        <css/>
         <data_table>sp_instance</data_table>
-        <demo_data>{
-	"options":{
-		"table_name": "incident",
-			"filter" : "active=true",
-				"limit": 10
-	}
-}</demo_data>
+        <demo_data/>
         <description>Display task records as cards.&#13;
 The table name and filter is provided by url params table &amp; filter</description>
         <docs/>
         <field_list>title</field_list>
-        <has_preview>true</has_preview>
+        <has_preview>false</has_preview>
         <id>gvs-vtb-task-list</id>
         <internal>false</internal>
         <link/>
@@ -52,15 +30,10 @@ The table name and filter is provided by url params table &amp; filter</descript
 	data.tableName = $sp.getParameter('table') || options.table_name;
 	var filter = $sp.getParameter('filter') || options.filter || '';
 	var limit = options.limit || 10;
-	//check the empty page in designer
-	if (gs.nil($sp.getParameter('id'))){
-		data.tableName = 'incident';
-	}
 
 	//set the field names to read
 	var fieldNames = 'number, short_description, priority, assigned_to, state, sys_id';
 	//fetch data from server
-	data.isValid = false;
 	data.tasks = getTaskRecords(data.tableName, filter);
 	
 	
@@ -98,50 +71,14 @@ The table name and filter is provided by url params table &amp; filter</descript
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-01-19 19:21:34</sys_created_on>
         <sys_id>49bff8054f3b070003abc4b18110c779</sys_id>
-        <sys_mod_count>99</sys_mod_count>
+        <sys_mod_count>102</sys_mod_count>
         <sys_name>GVS_VTB Task List</sys_name>
         <sys_package display_value="[GVS] Visual Task Board" source="x_52098_gvs_vtb">933abc014f3b070003abc4b18110c713</sys_package>
         <sys_policy/>
         <sys_scope display_value="[GVS] Visual Task Board">933abc014f3b070003abc4b18110c713</sys_scope>
         <sys_update_name>sp_widget_49bff8054f3b070003abc4b18110c779</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-01-20 13:21:43</sys_updated_on>
-        <template><![CDATA[<div ng-if="!data.isValid" class="alert alert-danger">
-	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
-</button> ${gvs.vtb.widget.task_list.no_table_specified}
-</div>
-
-<div ng-if="data.isValid" class="container-fluid m-t">
-	<h1 ng-if="options.show_label === 'true'">
-		{{::data.label}}
-	</h1>
-
-	<div ng-if="data.tasks.length == 0" class="well well-lg">
-		${gvs.vtb.widget.task_list.no_records_found}
-	</div>
-
-
-	<div ng-if="data.tasks.length>0" class="row">
-		<div class="col-md-4 col-sm-6" ng-repeat="task in data.tasks">
-			<div class="panel panel-default">
-
-				<a ng-href="?id={{::options.details_page}}&table={{::data.tableName}}&sys_id={{::task.sys_id.value}}">
-					<div class="panel-body gvs-task-card">
-						<div class="lead">
-							{{task.number.display_value}}
-							<sn-avatar ng-if="task.assigned_to.value" primary="task.assigned_to.value" show-presence="true" class="avatar-small-medium pull-right"></sn-avatar>
-						</div>
-						<p>
-							{{task.short_description.display_value}}
-						</p>
-
-					</div>
-				</a>
-				<div class="panel-footer flex-row justify-between items-center"><span class="badge">{{task.state.display_value}}</span><span ng-class="c.getPriorityClass(task)">{{task.priority.display_value}}</span></div>
-			</div>
-		</div>
-	</div>
-</div>
-]]></template>
+        <sys_updated_on>2018-01-23 09:47:21</sys_updated_on>
+        <template><![CDATA[<pre>{{data.tasks | json}}</pre>]]></template>
     </sp_widget>
 </record_update>
