@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <client_script><![CDATA[function() {
+	/* widget controller */
+	var c = this;
+	
+	c.submit = function(){		
+		c.server.update().then(function(response){
+
+		});
+	}
+}]]></client_script>
+        <controller_as>c</controller_as>
+        <css/>
+        <data_table>sp_instance</data_table>
+        <demo_data>{
+	"options":{
+		"title":"Submit new ticket",
+		"short_description":"Desribe your issue"
+	}
+}</demo_data>
+        <description>Simple form for creating a new task based record</description>
+        <docs/>
+        <field_list>title,short_description</field_list>
+        <has_preview>true</has_preview>
+        <id>gvs-vtb-task-form</id>
+        <internal>false</internal>
+        <link/>
+        <name>GVS_VTB Task Form</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function () {
+	if (input) {		
+		if (input.ticket) {
+			var recordGR = new GlideRecordSecure(input.table_name);
+			recordGR.initialize();
+			recordGR.priority = input.ticket.priority;
+			recordGR.short_description = input.ticket.summary;
+			recordGR.description = input.ticket.details;
+			if (recordGR.insert()){
+				//gs.addInfoMessage("Record " + recordGR.getDisplayValue() + " created.");
+			}
+			else {
+				gs.addErrorMessage("There was a problem with record creation");
+			}
+		}
+		//return;
+	}
+	data.table_name = $sp.getParameter('table') || options.table_name;
+	data.priorities = getPriorityList(data.table_name);
+	data.isValid = false;
+	
+	/**
+	 * returns an object of priority list with key as priority value and value as display value
+	 * @param   {string} tableName sys_name of table
+	 * @returns {object} object representation of priority values and display values
+	 */
+	function getPriorityList(tableName) {
+		var result = {};
+		var recordGR = new GlideRecord(tableName);
+		recordGR.initialize();
+		if (recordGR.isValid()) {
+			data.isValid = true;
+			var priorities = recordGR.priority.getChoices();
+			priorities.forEach(addChoice);
+		}
+		return result;
+
+		function addChoice(value) {
+			result[value] = GlideChoiceList.getChoiceList('incident', 'priority')
+				.getLabelOf(value);
+		}
+	}
+})();
+]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-01-20 14:35:58</sys_created_on>
+        <sys_id>e7e7cd154fb3470003abc4b18110c705</sys_id>
+        <sys_mod_count>67</sys_mod_count>
+        <sys_name>GVS_VTB Task Form</sys_name>
+        <sys_package display_value="[GVS] Visual Task Board" source="x_52098_gvs_vtb">933abc014f3b070003abc4b18110c713</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="[GVS] Visual Task Board">933abc014f3b070003abc4b18110c713</sys_scope>
+        <sys_update_name>sp_widget_e7e7cd154fb3470003abc4b18110c705</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-01-22 21:58:06</sys_updated_on>
+        <template><![CDATA[<div class="panel panel-default">
+	<div class="wrapper b-b">
+		<div class="lead">{{::options.title}}</div>
+		<div class="text-muted">
+			{{::options.short_description}}
+		</div>
+	</div>
+
+
+	<form class="form panel-body" name="gvsForm">
+		<div class="m-t">
+				<div class="form-group">
+					<label class="control-label">${Summary}</label>
+					<input type="text" class="form-control" ng-required="true" ng-model="data.ticket.summary">
+				</div>
+				<div class="form-group">
+					<label for="textArea" class="control-label">${Details}</label>
+					<textarea class="form-control" rows="3" ng-model="data.ticket.details"></textarea>
+					<span class="help-block"></span>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${Priority}</label>
+                  <select class="form-control" ng-options="key as value for (key , value) in data.priorities" ng-model="data.ticket.priority" ng-required="true"></select>
+
+				</div>
+				<div class="form-group clearfix">
+					<button type="submit" class="btn btn-primary pull-right" ng-disabled="!gvsForm.$valid" ng-click="c.submit()">${Submit}</button>
+				</div>
+
+		</div>
+	</form>
+ 
+</div>
+]]></template>
+    </sp_widget>
+</record_update>
