@@ -80,14 +80,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-01-20 14:35:58</sys_created_on>
         <sys_id>e7e7cd154fb3470003abc4b18110c705</sys_id>
-        <sys_mod_count>67</sys_mod_count>
+        <sys_mod_count>68</sys_mod_count>
         <sys_name>GVS_VTB Task Form</sys_name>
         <sys_package display_value="[GVS] Visual Task Board" source="x_52098_gvs_vtb">933abc014f3b070003abc4b18110c713</sys_package>
         <sys_policy/>
         <sys_scope display_value="[GVS] Visual Task Board">933abc014f3b070003abc4b18110c713</sys_scope>
         <sys_update_name>sp_widget_e7e7cd154fb3470003abc4b18110c705</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-01-22 21:58:06</sys_updated_on>
+        <sys_updated_on>2018-01-23 13:26:27</sys_updated_on>
         <template><![CDATA[<div class="panel panel-default">
 	<div class="wrapper b-b">
 		<div class="lead">{{::options.title}}</div>
@@ -101,7 +101,7 @@
 		<div class="m-t">
 				<div class="form-group">
 					<label class="control-label">${Summary}</label>
-					<input type="text" class="form-control" ng-required="true" ng-model="data.ticket.summary">
+					<input type="text" class="form-control" ng-model="data.ticket.summary">
 				</div>
 				<div class="form-group">
 					<label for="textArea" class="control-label">${Details}</label>
@@ -110,11 +110,10 @@
 				</div>
 				<div class="form-group">
 					<label class="control-label">${Priority}</label>
-                  <select class="form-control" ng-options="key as value for (key , value) in data.priorities" ng-model="data.ticket.priority" ng-required="true"></select>
-
+                  <select class="form-control" ng-options="key as value for (key , value) in data.priorities" ng-model="data.ticket.priority"></select>
 				</div>
 				<div class="form-group clearfix">
-					<button type="submit" class="btn btn-primary pull-right" ng-disabled="!gvsForm.$valid" ng-click="c.submit()">${Submit}</button>
+					<button type="submit" class="btn btn-primary pull-right" ng-click="c.submit()">${Submit}</button>
 				</div>
 
 		</div>
