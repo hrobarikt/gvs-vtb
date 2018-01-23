@@ -4,18 +4,28 @@
         <client_script><![CDATA[function() {
 	/* widget controller */
 	var c = this;
-	
-	console.log(c.data.tasks);
+
 }]]></client_script>
         <controller_as>c</controller_as>
-        <css/>
+        <css>.gvs-task-card {
+	height: 10em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}</css>
         <data_table>sp_instance</data_table>
-        <demo_data/>
+        <demo_data>{
+	"options":{
+		"table_name": "incident",
+			"filter" : "active=true",
+				"limit": 10,
+					"show_label": "true"
+	}
+}</demo_data>
         <description>Display task records as cards.&#13;
 The table name and filter is provided by url params table &amp; filter</description>
         <docs/>
         <field_list>title</field_list>
-        <has_preview>false</has_preview>
+        <has_preview>true</has_preview>
         <id>gvs-vtb-task-list</id>
         <internal>false</internal>
         <link/>
@@ -24,15 +34,20 @@ The table name and filter is provided by url params table &amp; filter</descript
         <public>false</public>
         <roles/>
         <script><![CDATA[(function () {
-
+	
 	//read url params
 	data.tableName = $sp.getParameter('table') || options.table_name;
 	var filter = $sp.getParameter('filter') || options.filter || '';
 	var limit = options.limit || 10;
+	//check the empty page in designer
+	if (gs.nil($sp.getParameter('id'))){
+		data.tableName = 'incident';
+	}
 
 	//set the field names to read
 	var fieldNames = 'number, short_description, priority, assigned_to, state, sys_id';
 	//fetch data from server
+	data.isValid = false;
 	data.tasks = getTaskRecords(data.tableName, filter);
 	
 	
@@ -70,18 +85,33 @@ The table name and filter is provided by url params table &amp; filter</descript
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-01-19 19:21:34</sys_created_on>
         <sys_id>49bff8054f3b070003abc4b18110c779</sys_id>
-        <sys_mod_count>107</sys_mod_count>
+        <sys_mod_count>102</sys_mod_count>
         <sys_name>GVS_VTB Task List</sys_name>
         <sys_package display_value="[GVS] Visual Task Board" source="x_52098_gvs_vtb">933abc014f3b070003abc4b18110c713</sys_package>
         <sys_policy/>
         <sys_scope display_value="[GVS] Visual Task Board">933abc014f3b070003abc4b18110c713</sys_scope>
         <sys_update_name>sp_widget_49bff8054f3b070003abc4b18110c779</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-01-23 10:01:52</sys_updated_on>
-        <template><![CDATA[<h1 ng-if="options.show_label === 'true'">
-  {{::data.label}}
-</h1>
+        <sys_updated_on>2018-01-23 12:05:51</sys_updated_on>
+        <template><![CDATA[<div ng-if="!data.isValid" class="alert alert-danger">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
+</button> ${gvs.vtb.widget.task_list.no_table_specified}
+</div>
 
-<pre>{{data.tasks | json}}</pre>]]></template>
+<div ng-if="data.isValid" class="container-fluid m-t">
+	<h1 ng-if="options.show_label === 'true'">
+		{{::data.label}}
+	</h1>
+
+	<div ng-if="data.tasks.length == 0" class="well well-lg">
+		${gvs.vtb.widget.task_list.no_records_found}
+	</div>
+
+
+	<div ng-if="data.tasks.length>0" class="row">
+		<pre>{{data.tasks | json}}</pre>
+	</div>
+</div>
+]]></template>
     </sp_widget>
 </record_update>
