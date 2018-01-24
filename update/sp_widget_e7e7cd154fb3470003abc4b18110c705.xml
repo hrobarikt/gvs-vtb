@@ -7,15 +7,17 @@
 
 	//submits the data from form and sends them to the server to create a new task record
 	c.submit = function(){
-		spModal.confirm("${gvs.vtb.widget.task_form.confirm_creation}").then(function(confirmed) {
-			c.confirmed = confirmed; // true or false
+		spModal.confirm("${gvs.vtb.widget.task_form.confirm_creation}").then(function(confirmed) {			
 			insertTask();
 		});
 	}
 
 	//will pass data object as inpu to the server
 	function insertTask(){
-		c.server.update();
+		c.server.update().then(function(){
+			c.data.ticket = {};
+		}
+													);
 	}
 
 }]]></client_script>
@@ -39,10 +41,7 @@
         <option_schema/>
         <public>false</public>
         <roles/>
-        <script><![CDATA[(function () {
-
-	
-	
+        <script><![CDATA[(function () {	
 	if (input) {		
 		if (input.ticket) {
 			var recordGR = new GlideRecordSecure(input.table_name);
@@ -59,7 +58,7 @@
 				gs.addErrorMessage(msgRecordFailed);
 			}
 		}
-		//return;
+		return;
 	}
 	data.table_name = $sp.getParameter('table') || options.table_name;
 	data.priorities = getPriorityList(data.table_name);
@@ -93,14 +92,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-01-20 14:35:58</sys_created_on>
         <sys_id>e7e7cd154fb3470003abc4b18110c705</sys_id>
-        <sys_mod_count>70</sys_mod_count>
+        <sys_mod_count>71</sys_mod_count>
         <sys_name>GVS_VTB Task Form</sys_name>
         <sys_package display_value="[GVS] Visual Task Board" source="x_52098_gvs_vtb">933abc014f3b070003abc4b18110c713</sys_package>
         <sys_policy/>
         <sys_scope display_value="[GVS] Visual Task Board">933abc014f3b070003abc4b18110c713</sys_scope>
         <sys_update_name>sp_widget_e7e7cd154fb3470003abc4b18110c705</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-01-23 15:04:58</sys_updated_on>
+        <sys_updated_on>2018-01-24 19:52:47</sys_updated_on>
         <template><![CDATA[<div class="panel panel-default">
 	<div class="wrapper b-b">
 		<div class="lead">{{::options.title}}</div>
@@ -124,7 +123,6 @@
 				<div class="form-group">
 					<label class="control-label">${Priority}</label>
                   <select class="form-control" ng-options="key as value for (key , value) in data.priorities" ng-model="data.ticket.priority" ng-required="true"></select>
-
 				</div>
 				<div class="form-group clearfix">
 					<button type="submit" class="btn btn-primary pull-right" ng-disabled="!gvsForm.$valid" ng-click="c.submit()">${Submit}</button>
