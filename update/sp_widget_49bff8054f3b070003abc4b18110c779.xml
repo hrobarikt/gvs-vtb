@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <record_update table="sp_widget">
     <sp_widget action="INSERT_OR_UPDATE">
-        <client_script><![CDATA[function(spUtil, $scope) {
+        <client_script><![CDATA[function (spUtil, $scope, spModal, $uibModal) {
 	/* widget controller */
 	var c = this;
-
 	//add record watcher for selected table and filter
 	//refresh the data when any update/insert/delete occurs
-	if (c.data.isValid){
-		spUtil.recordWatch($scope, c.data.tableName, c.data.filter, function(name,data){
+	if (c.data.isValid) {
+		spUtil.recordWatch($scope, c.data.tableName, c.data.filter, function (name, data) {
 			c.server.refresh();
 		});
 	}
-	
 	//returns an appropriate CSS class for priority label
-	c.getPriorityClass = function (task){
+	c.getPriorityClass = function (task) {
 		var priority = task.priority.value;
 		return {
 			'label': true,
@@ -24,10 +22,60 @@
 			'label-success': priority == '4',
 			'label-default': priority == '5'
 		}
-
 	}
-
-}]]></client_script>
+	
+	c.openModalForm = openUibModal;
+	
+	
+	/*spModal version*/
+	function openSpModal(task) {
+		spModal.open({
+			widget: 'widget-form',
+			buttons: [],
+			size: 'lg',
+			widgetInput: {
+				table: c.data.tableName,
+				sys_id: task.sys_id.value,
+				view: c.options.form_view
+			}
+		});
+	}
+	/*uibModal*/
+	function openUibModal(task) {
+		spUtil.get("widget-form", {
+				sys_id: task.sys_id.value,
+				table: c.data.tableName,
+				view: c.options.form_view
+			})
+			.then(function (response) {
+				c.formWidget = response;
+				c.modalInstance = $uibModal.open({
+					template: "<sp-widget widget='c.formWidget'></sp-widget>",
+					scope: $scope,
+					size: "lg"
+				});
+			});
+	}
+	/*modal using embedding the widget-modal*/
+	function openModal(task) {
+		spUtil.get("widget-modal", {
+				'embeddedWidgetId': 'widget-form',
+				'embeddedWidgetOptions': {
+					sys_id: task.sys_id.value,
+					table: c.data.tableName,
+					view: c.options.form_view
+				}
+			})
+			.then(function (response) {
+				c.formModal = response;
+				c.formModal.options.afterClose = function () {
+					c.formModal = null;
+				}
+			});
+	}
+	
+}
+]]></client_script>
         <controller_as>c</controller_as>
         <css>.gvs-task-card {
 	height: 10em;
@@ -51,7 +99,7 @@ The table name and filter is provided by url params table &amp; filter</descript
         <internal>false</internal>
         <link/>
         <name>GVS_VTB Task List</name>
-        <option_schema>[{"hint":"Specify maximum number of entries to fetch","name":"limit","default_value":"10","label":"Number of records to display","type":"integer"},{"name":"show_label","default_value":"true","label":"Show table name","type":"boolean"},{"displayValue":"Page","name":"details_page","default_value":"ticket","label":"Details page","type":"string","value":"sp_page","ed":{"reference":"sp_page"}}]</option_schema>
+        <option_schema>[{"hint":"Specify maximum number of entries to fetch","name":"limit","default_value":"10","label":"Number of records to display","type":"integer"},{"name":"show_label","default_value":"true","label":"Show table name","type":"boolean"},{"displayValue":"Page","hint":"The view used for displaying the modal form of selected task record","name":"form_view","default_value":"ess","label":"Form view","type":"string","value":"sp_page","ed":{"reference":"sp_page"}}]</option_schema>
         <public>false</public>
         <roles/>
         <script><![CDATA[(function () {
@@ -107,15 +155,17 @@ The table name and filter is provided by url params table &amp; filter</descript
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-01-19 19:21:34</sys_created_on>
         <sys_id>49bff8054f3b070003abc4b18110c779</sys_id>
-        <sys_mod_count>104</sys_mod_count>
+        <sys_mod_count>129</sys_mod_count>
         <sys_name>GVS_VTB Task List</sys_name>
         <sys_package display_value="[GVS] Visual Task Board" source="x_52098_gvs_vtb">933abc014f3b070003abc4b18110c713</sys_package>
         <sys_policy/>
         <sys_scope display_value="[GVS] Visual Task Board">933abc014f3b070003abc4b18110c713</sys_scope>
         <sys_update_name>sp_widget_49bff8054f3b070003abc4b18110c779</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-01-24 20:14:38</sys_updated_on>
-        <template><![CDATA[<div ng-if="!data.isValid" class="alert alert-danger">
+        <sys_updated_on>2018-01-26 18:59:42</sys_updated_on>
+        <template><![CDATA[<sp-widget widget="c.formModal" ng-if="c.formModal"></sp-widget>
+
+<div ng-if="!data.isValid" class="alert alert-danger">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
 </button> ${gvs.vtb.widget.task_list.no_table_specified}
 </div>
@@ -134,7 +184,7 @@ The table name and filter is provided by url params table &amp; filter</descript
 		<div class="col-md-4 col-sm-6" ng-repeat="task in data.tasks">
 			<div class="panel panel-default">
 
-				<a ng-href="?id={{::options.details_page}}&table={{::data.tableName}}&sys_id={{::task.sys_id.value}}">
+				<a href="javascript:void(0)" ng-click="c.openModalForm(task)">
 					<div class="panel-body gvs-task-card">
 						<div class="lead">
 							{{task.number.display_value}}
