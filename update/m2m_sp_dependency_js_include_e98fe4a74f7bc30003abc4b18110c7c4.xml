@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="m2m_sp_dependency_js_include">
+    <m2m_sp_dependency_js_include action="INSERT_OR_UPDATE">
+        <order>100</order>
+        <sp_dependency display_value="GVS Infinite Scroll">7d4ea4e74f7bc30003abc4b18110c792</sp_dependency>
+        <sp_js_include display_value="gvs-infinite-scroll.js">c4dee8e74f7bc30003abc4b18110c766</sp_js_include>
+        <sys_class_name>m2m_sp_dependency_js_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-01-27 12:35:40</sys_created_on>
+        <sys_id>e98fe4a74f7bc30003abc4b18110c7c4</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>GVS Infinite Scroll.gvs-infinite-scroll.js</sys_name>
+        <sys_package display_value="[GVS] Visual Task Board" source="x_52098_gvs_vtb">933abc014f3b070003abc4b18110c713</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="[GVS] Visual Task Board">933abc014f3b070003abc4b18110c713</sys_scope>
+        <sys_update_name>m2m_sp_dependency_js_include_e98fe4a74f7bc30003abc4b18110c7c4</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-01-27 12:35:40</sys_updated_on>
+    </m2m_sp_dependency_js_include>
+</record_update>

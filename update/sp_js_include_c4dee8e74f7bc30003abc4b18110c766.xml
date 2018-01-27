@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_js_include">
+    <sp_js_include action="INSERT_OR_UPDATE">
+        <display_name>gvs-infinite-scroll.js</display_name>
+        <source>local</source>
+        <sys_class_name>sp_js_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-01-27 12:35:40</sys_created_on>
+        <sys_id>c4dee8e74f7bc30003abc4b18110c766</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>gvs-infinite-scroll.js</sys_name>
+        <sys_package display_value="[GVS] Visual Task Board" source="x_52098_gvs_vtb">933abc014f3b070003abc4b18110c713</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="[GVS] Visual Task Board">933abc014f3b070003abc4b18110c713</sys_scope>
+        <sys_ui_script display_value="x_52098_gvs_vtb.gvs-infinite-scroll.js">cdee2ce74f7bc30003abc4b18110c767</sys_ui_script>
+        <sys_update_name>sp_js_include_c4dee8e74f7bc30003abc4b18110c766</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-01-27 12:35:40</sys_updated_on>
+        <url/>
+    </sp_js_include>
+</record_update>
