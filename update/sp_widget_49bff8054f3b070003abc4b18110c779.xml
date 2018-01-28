@@ -51,7 +51,11 @@
 			start_position: c.data.tasks.length
 		}).then(function(response){
 			c.isLoading = false;
-			console.log(response.data.tasks);
+			//no more records fetched
+			if (response.data.tasks.length == 0){
+				c.loadingDisabled = true;
+				return;
+			}
 			c.data.tasks = c.data.tasks.concat(response.data.tasks);
 		});
 	}
@@ -141,21 +145,20 @@ The table name and filter is provided by url params table &amp; filter</descript
 		}
 		return records;
 	}
-})();
-;]]></script>
+})();]]></script>
         <servicenow>false</servicenow>
         <sys_class_name>sp_widget</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-01-19 19:21:34</sys_created_on>
         <sys_id>49bff8054f3b070003abc4b18110c779</sys_id>
-        <sys_mod_count>149</sys_mod_count>
+        <sys_mod_count>151</sys_mod_count>
         <sys_name>GVS_VTB Task List</sys_name>
         <sys_package display_value="[GVS] Visual Task Board" source="x_52098_gvs_vtb">933abc014f3b070003abc4b18110c713</sys_package>
         <sys_policy/>
         <sys_scope display_value="[GVS] Visual Task Board">933abc014f3b070003abc4b18110c713</sys_scope>
         <sys_update_name>sp_widget_49bff8054f3b070003abc4b18110c779</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-01-28 14:34:11</sys_updated_on>
+        <sys_updated_on>2018-01-28 19:16:52</sys_updated_on>
         <template><![CDATA[<div ng-if="!data.isValid" class="alert alert-danger">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
 </button> ${gvs.vtb.widget.task_list.no_table_specified}
@@ -171,7 +174,7 @@ The table name and filter is provided by url params table &amp; filter</descript
 	</div>
 
 
-	<div ng-if="data.tasks.length>0" class="row" gvs-infinite-scroll="c.fetchAdditionalData()">
+	<div ng-if="data.tasks.length>0" class="row" gvs-infinite-scroll="c.fetchAdditionalData()" infinite-scroll-disabled="c.loadingDisabled">
 		<div class="col-md-4 col-sm-6" ng-repeat="task in data.tasks">
 			<div class="panel panel-default">
 
