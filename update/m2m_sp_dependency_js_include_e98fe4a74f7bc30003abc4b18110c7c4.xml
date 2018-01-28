@@ -2,7 +2,7 @@
 <record_update table="m2m_sp_dependency_js_include">
     <m2m_sp_dependency_js_include action="INSERT_OR_UPDATE">
         <order>100</order>
-        <sp_dependency display_value="GVS Infinite Scroll">7d4ea4e74f7bc30003abc4b18110c792</sp_dependency>
+        <sp_dependency display_value="GVS UI Scroll">7d4ea4e74f7bc30003abc4b18110c792</sp_dependency>
         <sp_js_include display_value="gvs-infinite-scroll.js">c4dee8e74f7bc30003abc4b18110c766</sp_js_include>
         <sys_class_name>m2m_sp_dependency_js_include</sys_class_name>
         <sys_created_by>admin</sys_created_by>

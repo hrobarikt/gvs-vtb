@@ -17,20 +17,20 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-01-20 11:57:53</sys_created_on>
         <sys_id>a3b3a49d4f33470003abc4b18110c76f</sys_id>
-        <sys_mod_count>10</sys_mod_count>
+        <sys_mod_count>13</sys_mod_count>
         <sys_name>List of task records on gvs_table page</sys_name>
         <sys_package display_value="[GVS] Visual Task Board" source="x_52098_gvs_vtb">933abc014f3b070003abc4b18110c713</sys_package>
         <sys_policy/>
         <sys_scope display_value="[GVS] Visual Task Board">933abc014f3b070003abc4b18110c713</sys_scope>
         <sys_update_name>sp_instance_a3b3a49d4f33470003abc4b18110c76f</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-01-26 18:54:38</sys_updated_on>
+        <sys_updated_on>2018-01-28 13:45:48</sys_updated_on>
         <title>List of task records on gvs_table page</title>
         <url/>
         <widget_parameters><![CDATA[{
 	"limit": {
-		"value": null,
-		"displayValue": ""
+		"value": 20,
+		"displayValue": "20"
 	},
 	"show_label": {
 		"value": "true",
