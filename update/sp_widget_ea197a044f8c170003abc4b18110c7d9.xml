@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <client_script><![CDATA[function($rootScope) {
+  /* widget controller */
+  var c = this;
+	
+	//default filter object
+	c.filter = {
+		active: true,
+		text: ''
+	}
+	
+	//broadcast selected filter as encoded query
+	c.applyFilter = function(){
+		$rootScope.$broadcast('gvs.vtb.update_query', encodedQuery());	
+	}
+
+	//construct encoded query from filter object
+	function encodedQuery(){
+		var encodedQuery = 'active=' + c.filter.active;
+		if (c.filter.text){
+			encodedQuery += '^123TEXTQUERY321=' + c.filter.text;
+		}		
+		return encodedQuery;
+	}
+	
+}]]></client_script>
+        <controller_as>c</controller_as>
+        <css/>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description>Allows to specify a filter that will be applied to the current list of displayed VTB task records</description>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>gvs-vtb-task-filter</id>
+        <internal>false</internal>
+        <link/>
+        <name>GVS_VTB Task Filter</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+  /* populate the 'data' object */
+  /* e.g., data.table = $sp.getValue('table'); */
+	
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-01-29 11:53:43</sys_created_on>
+        <sys_id>ea197a044f8c170003abc4b18110c7d9</sys_id>
+        <sys_mod_count>19</sys_mod_count>
+        <sys_name>GVS_VTB Task Filter</sys_name>
+        <sys_package display_value="[GVS] Visual Task Board" source="x_52098_gvs_vtb">933abc014f3b070003abc4b18110c713</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="[GVS] Visual Task Board">933abc014f3b070003abc4b18110c713</sys_scope>
+        <sys_update_name>sp_widget_ea197a044f8c170003abc4b18110c7d9</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-01-29 15:40:27</sys_updated_on>
+        <template><![CDATA[
+<div class="wrapper">
+  <form class="form-inline" role="form">
+    <div class="form-group">
+      <label>${Search:}</label>
+      <input type="text" class="form-control input-sm" ng-model="c.filter.text">
+    </div>         
+
+    <div class="checkbox m-l">
+      <label>
+        <input type="checkbox" ng-model="c.filter.active"> ${Active}
+      </label>
+    </div> 
+
+    <div class="form-group pull-right">
+      <button type="submit" class="btn btn-default" ng-click="c.applyFilter()">
+        ${Apply}
+      </button>
+    </div>
+  </form>
+</div>
+]]></template>
+    </sp_widget>
+</record_update>

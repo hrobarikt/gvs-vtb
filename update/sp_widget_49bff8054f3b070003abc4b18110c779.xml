@@ -43,10 +43,19 @@
 			});
 	}
 	
+	//reload data when new filter obtained
+	$scope.$on('gvs.vtb.update_query', function(event, obj){
+		c.data.tasks = [];
+		c.data.filter = obj;
+		c.fetchAdditionalData();
+	});
+
+	
 	//calls when reaching the end of the page
 	//will fetch additional task records from the server
-	c.fetchAdditionalData = function(){		
+	c.fetchAdditionalData = function(){	
 		c.isLoading = true;
+		c.loadingDisabled = true;
 		var config = {
 			params: {
 				sysparm_query: c.data.filter + '^ORDERBYDESCnumber',
@@ -65,6 +74,7 @@
 				return;
 			}
 			c.data.tasks = c.data.tasks.concat(response.data.result);
+			c.loadingDisabled = false;
 		});	
 	}
 	
@@ -122,14 +132,14 @@ The table name and filter is provided by url params table &amp; filter</descript
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-01-19 19:21:34</sys_created_on>
         <sys_id>49bff8054f3b070003abc4b18110c779</sys_id>
-        <sys_mod_count>167</sys_mod_count>
+        <sys_mod_count>188</sys_mod_count>
         <sys_name>GVS_VTB Task List</sys_name>
         <sys_package display_value="[GVS] Visual Task Board" source="x_52098_gvs_vtb">933abc014f3b070003abc4b18110c713</sys_package>
         <sys_policy/>
         <sys_scope display_value="[GVS] Visual Task Board">933abc014f3b070003abc4b18110c713</sys_scope>
         <sys_update_name>sp_widget_49bff8054f3b070003abc4b18110c779</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-01-28 21:48:25</sys_updated_on>
+        <sys_updated_on>2018-01-29 15:43:58</sys_updated_on>
         <template><![CDATA[<div ng-if="!data.isValid" class="alert alert-danger">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
 </button> ${gvs.vtb.widget.task_list.no_table_specified}
@@ -143,7 +153,6 @@ The table name and filter is provided by url params table &amp; filter</descript
 	<div ng-if="data.tasks.length == 0 && !c.isLoading" class="well well-lg">
 		${gvs.vtb.widget.task_list.no_records_found}
 	</div>
-
 
 	<div ng-if="data.tasks.length>0" class="row" gvs-infinite-scroll="c.fetchAdditionalData()" infinite-scroll-disabled="c.loadingDisabled">
 		<div class="col-md-4 col-sm-6" ng-repeat="task in data.tasks">
