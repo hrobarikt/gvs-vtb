@@ -13,35 +13,6 @@
 			c.server.refresh();
 		});
 	}
-	//returns an appropriate CSS class for priority label
-	c.getPriorityClass = function (task) {
-		var priority = task.priority.value;
-		return {
-			'label': true,
-			'label-danger': priority == '1',
-			'label-warning': priority == '2',
-			'label-primary': priority == '3',
-			'label-success': priority == '4',
-			'label-default': priority == '5'
-		}
-	}
-	
-	/*opens the modal form for selected task record*/
-	c.openModalForm = function (task) {
-		spUtil.get("widget-form", {
-				sys_id: task.sys_id.value,
-				table: c.data.tableName,
-				view: c.options.form_view
-			})
-			.then(function (response) {
-				c.formWidget = response;
-				c.modalInstance = $uibModal.open({
-					template: "<sp-widget widget='c.formWidget'></sp-widget>",
-					scope: $scope,
-					size: "lg"
-				});
-			});
-	}
 	
 	//reload data when new filter obtained
 	$scope.$on('gvs.vtb.update_query', function(event, obj){
@@ -132,14 +103,14 @@ The table name and filter is provided by url params table &amp; filter</descript
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-01-19 19:21:34</sys_created_on>
         <sys_id>49bff8054f3b070003abc4b18110c779</sys_id>
-        <sys_mod_count>188</sys_mod_count>
+        <sys_mod_count>193</sys_mod_count>
         <sys_name>GVS_VTB Task List</sys_name>
         <sys_package display_value="[GVS] Visual Task Board" source="x_52098_gvs_vtb">933abc014f3b070003abc4b18110c713</sys_package>
         <sys_policy/>
         <sys_scope display_value="[GVS] Visual Task Board">933abc014f3b070003abc4b18110c713</sys_scope>
         <sys_update_name>sp_widget_49bff8054f3b070003abc4b18110c779</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-01-29 15:43:58</sys_updated_on>
+        <sys_updated_on>2018-01-29 21:27:59</sys_updated_on>
         <template><![CDATA[<div ng-if="!data.isValid" class="alert alert-danger">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
 </button> ${gvs.vtb.widget.task_list.no_table_specified}
@@ -156,22 +127,7 @@ The table name and filter is provided by url params table &amp; filter</descript
 
 	<div ng-if="data.tasks.length>0" class="row" gvs-infinite-scroll="c.fetchAdditionalData()" infinite-scroll-disabled="c.loadingDisabled">
 		<div class="col-md-4 col-sm-6" ng-repeat="task in data.tasks">
-			<div class="panel panel-default">
-
-				<a href="javascript:void(0)" ng-click="c.openModalForm(task)">
-					<div class="panel-body gvs-task-card">
-						<div class="lead">
-							{{task.number.display_value}}
-							<sn-avatar ng-if="task.assigned_to.value" primary="task.assigned_to.value" show-presence="true" class="avatar-small-medium pull-right"></sn-avatar>
-						</div>
-						<p>
-							{{task.short_description.display_value}}
-						</p>
-
-					</div>
-				</a>
-				<div class="panel-footer flex-row justify-between items-center"><span class="badge">{{task.state.display_value}}</span><span ng-class="c.getPriorityClass(task)">{{task.priority.display_value}}</span></div>
-			</div>
+			<gvs-vtb-task-card task="task" table="c.data.tableName" view="c.options.form_view"></gvs-vtb-task-card>
 		</div>
 	</div>
   <div class="well" ng-show="c.isLoading">

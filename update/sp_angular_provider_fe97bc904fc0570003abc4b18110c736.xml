@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_angular_provider">
+    <sp_angular_provider action="INSERT_OR_UPDATE">
+        <name>gvsVtbTaskCard</name>
+        <script><![CDATA[function (){
+	var templateHTML = '<div class="panel panel-default">';
+	templateHTML += '<a href="javascript:void(0)" ng-click="c.openModalForm(task)">';
+	templateHTML +=	'<div class="panel-body gvs-task-card">';
+	templateHTML += '<div class="lead">';
+	templateHTML += '{{task.number.display_value}}';
+	templateHTML += '<sn-avatar ng-if="task.assigned_to.value" primary="task.assigned_to.value" show-presence="true" class="avatar-small-medium pull-right"></sn-avatar>';
+	templateHTML += '</div>';
+	templateHTML += '<p>{{task.short_description.display_value}}</p>';
+	templateHTML += '</div>	</a><div class="panel-footer flex-row justify-between items-center"><span class="badge">{{task.state.display_value}}</span><span ng-class="c.getPriorityClass(task)">{{task.priority.display_value}}</span></div>	</div>';
+
+	return {
+		restrict: 'E',
+		template: templateHTML,
+		scope:{
+			task:'=',
+			table: '=',
+			view: '='
+		},
+		controller: function(spUtil, $uibModal, $scope){
+			var c = this;
+			//returns an appropriate CSS class for priority label
+			c.getPriorityClass = function (task) {
+				var priority = task.priority.value;
+				return {
+					'label': true,
+					'label-danger': priority == '1',
+					'label-warning': priority == '2',
+					'label-primary': priority == '3',
+					'label-success': priority == '4',
+					'label-default': priority == '5'
+				};
+			};
+
+			/*opens the modal form for selected task record*/
+			c.openModalForm = function (task) {
+				spUtil.get("widget-form", {
+					sys_id: task.sys_id.value,
+					table: $scope.table,
+					view: $scope.view
+				})
+					.then(function (response) {
+					c.formWidget = response;
+					c.modalInstance = $uibModal.open({
+						template: "<sp-widget widget='c.formWidget'></sp-widget>",
+						scope: $scope,
+						size: "lg"
+					});
+				});
+			};
+		},
+		controllerAs: 'c'
+	};
+}]]></script>
+        <sys_class_name>sp_angular_provider</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-01-29 21:12:08</sys_created_on>
+        <sys_id>fe97bc904fc0570003abc4b18110c736</sys_id>
+        <sys_mod_count>7</sys_mod_count>
+        <sys_name>gvsVtbTaskCard</sys_name>
+        <sys_package display_value="[GVS] Visual Task Board" source="x_52098_gvs_vtb">933abc014f3b070003abc4b18110c713</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="[GVS] Visual Task Board">933abc014f3b070003abc4b18110c713</sys_scope>
+        <sys_update_name>sp_angular_provider_fe97bc904fc0570003abc4b18110c736</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-01-29 21:30:22</sys_updated_on>
+        <type>directive</type>
+    </sp_angular_provider>
+</record_update>
