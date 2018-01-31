@@ -4,8 +4,9 @@
         <client_script><![CDATA[function (spUtil, $scope, $http, gvsVtbTaskService) {
 	/* widget controller */
 	var c = this;
-	c.data.tasks = [];
-	c.isLoading = false;
+	c.data.tasks = gvsVtbTaskService.tasks;
+	c.isLoading = gvsVtbTaskService.isLoading;
+	c.loadingDisabled = gvsVtbTaskService.loadingDisabled;
 	//add record watcher for selected table and filter
 	//refresh the data when any update/insert/delete occurs
 	if (c.data.isValid) {
@@ -22,44 +23,8 @@
 	});
 
 	
-	//calls when reaching the end of the page
-	//will fetch additional task records from the server
-	/*c.fetchAdditionalData = function(){	
-		c.isLoading = true;
-		c.loadingDisabled = true;
-		var config = {
-			params: {
-				sysparm_query: c.data.filter + '^ORDERBYDESCnumber',
-				sysparm_limit: c.options.limit,
-				sysparm_fields: 'number, short_description, priority, assigned_to, state, sys_id',
-				sysparm_offset: c.data.tasks.length,
-				sysparm_display_value: 'all'
-			}
-		}
-		$http.get('/api/now/table/' + c.data.tableName, config).then(
-		function(response){
-			c.isLoading = false;
-			//no more records fetched
-			if (response.data.result.length == 0){
-				c.loadingDisabled = true;
-				return;
-			}
-			c.data.tasks = c.data.tasks.concat(response.data.result);
-			c.loadingDisabled = false;
-		});	
-	}*/
 	c.fetchAdditionalData = function(){
-		c.isLoading = true;
-		c.loadingDisabled = true;
 		gvsVtbTaskService.appendTasks(c.data.tableName, c.data.filter, c.data.tasks.length, c.options.limit).then(
-			function(response){
-				c.data.tasks = gvsVtbTaskService.tasks;
-				c.loadingDisabled = false;
-				c.isLoading = false;
-				if (response.data.result.length == 0){
-					c.loadingDisabled = true;
-				}
-			}
 	);
 	} 
 	
@@ -117,14 +82,14 @@ The table name and filter is provided by url params table &amp; filter</descript
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-01-19 19:21:34</sys_created_on>
         <sys_id>49bff8054f3b070003abc4b18110c779</sys_id>
-        <sys_mod_count>195</sys_mod_count>
+        <sys_mod_count>210</sys_mod_count>
         <sys_name>GVS_VTB Task List</sys_name>
         <sys_package display_value="[GVS] Visual Task Board" source="x_52098_gvs_vtb">933abc014f3b070003abc4b18110c713</sys_package>
         <sys_policy/>
         <sys_scope display_value="[GVS] Visual Task Board">933abc014f3b070003abc4b18110c713</sys_scope>
         <sys_update_name>sp_widget_49bff8054f3b070003abc4b18110c779</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-01-31 12:29:03</sys_updated_on>
+        <sys_updated_on>2018-01-31 14:05:02</sys_updated_on>
         <template><![CDATA[<div ng-if="!data.isValid" class="alert alert-danger">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
 </button> ${gvs.vtb.widget.task_list.no_table_specified}
@@ -140,10 +105,11 @@ The table name and filter is provided by url params table &amp; filter</descript
 	</div>
 
 	<div ng-if="data.tasks.length>0" class="row" gvs-infinite-scroll="c.fetchAdditionalData()" infinite-scroll-disabled="c.loadingDisabled">
-		<div class="col-md-4 col-sm-6" ng-repeat="task in data.tasks">
+		<div class="col-md-4 col-sm-6" ng-repeat="task in c.data.tasks">
 			<gvs-vtb-task-card task="task" table="c.data.tableName" view="c.options.form_view"></gvs-vtb-task-card>
 		</div>
 	</div>
+  <pre>{{c.isLoading}}</pre>
   <div class="well" ng-show="c.isLoading">
     <h4><i class="fa fa-spinner fa-spin fa-2x fa-fw"></i> ${Loading...}</h4>
 </div>
