@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <record_update table="sp_widget">
     <sp_widget action="INSERT_OR_UPDATE">
-        <client_script><![CDATA[function (spUtil, $scope, $uibModal, $http) {
+        <client_script><![CDATA[function (spUtil, $scope, $http, gvsVtbTaskService) {
 	/* widget controller */
 	var c = this;
 	c.data.tasks = [];
@@ -24,7 +24,7 @@
 	
 	//calls when reaching the end of the page
 	//will fetch additional task records from the server
-	c.fetchAdditionalData = function(){	
+	/*c.fetchAdditionalData = function(){	
 		c.isLoading = true;
 		c.loadingDisabled = true;
 		var config = {
@@ -47,7 +47,21 @@
 			c.data.tasks = c.data.tasks.concat(response.data.result);
 			c.loadingDisabled = false;
 		});	
-	}
+	}*/
+	c.fetchAdditionalData = function(){
+		c.isLoading = true;
+		c.loadingDisabled = true;
+		gvsVtbTaskService.appendTasks(c.data.tableName, c.data.filter, c.data.tasks.length, c.options.limit).then(
+			function(response){
+				c.data.tasks = gvsVtbTaskService.tasks;
+				c.loadingDisabled = false;
+				c.isLoading = false;
+				if (response.data.result.length == 0){
+					c.loadingDisabled = true;
+				}
+			}
+	);
+	} 
 	
 	c.fetchAdditionalData();
 }
@@ -103,14 +117,14 @@ The table name and filter is provided by url params table &amp; filter</descript
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-01-19 19:21:34</sys_created_on>
         <sys_id>49bff8054f3b070003abc4b18110c779</sys_id>
-        <sys_mod_count>193</sys_mod_count>
+        <sys_mod_count>195</sys_mod_count>
         <sys_name>GVS_VTB Task List</sys_name>
         <sys_package display_value="[GVS] Visual Task Board" source="x_52098_gvs_vtb">933abc014f3b070003abc4b18110c713</sys_package>
         <sys_policy/>
         <sys_scope display_value="[GVS] Visual Task Board">933abc014f3b070003abc4b18110c713</sys_scope>
         <sys_update_name>sp_widget_49bff8054f3b070003abc4b18110c779</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-01-29 21:27:59</sys_updated_on>
+        <sys_updated_on>2018-01-31 12:29:03</sys_updated_on>
         <template><![CDATA[<div ng-if="!data.isValid" class="alert alert-danger">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
 </button> ${gvs.vtb.widget.task_list.no_table_specified}
